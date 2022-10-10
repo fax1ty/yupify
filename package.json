@@ -7,7 +7,7 @@
   ],
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fax1ty/yupify.git"
@@ -28,14 +28,14 @@
     "access": "public"
   },
   "scripts": {
-    "build:dts": "tsc --emitDeclarationOnly --declaration",
+    "build:dts": "tsc --emitDeclarationOnly",
     "build:esm": "npx swc src/index.ts --config-file .esm.swcrc -o lib/esm/index.js",
     "build:cjs": "npx swc src/index.ts --config-file .cjs.swcrc -o lib/cjs/index.js",
-    "prepublish": "npm run build:dts && npm run build:esm && npm run build:cjs"
+    "prepublishOnly": "npm run build:dts && npm run build:esm && npm run build:cjs"
   },
   "devDependencies": {
     "@swc/cli": "^0.1.57",
-    "@swc/core": "^1.3.4",
+    "@swc/core": "^1.3.6",
     "fastify": "^4.7.0",
     "fastify-plugin": "^4.2.1",
     "typescript": "^4.8.4",
