@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "declarationDir": "./lib/types",
+    "esModuleInterop": true,
+    "moduleResolution": "Node",
+    "target": "ES2017",
+    "skipLibCheck": true
+  },
+  "include": ["src"]
+}
