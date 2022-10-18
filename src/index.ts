@@ -46,7 +46,7 @@ export enum Yupify {
   Response = "response",
 }
 
-type YupifySchema<
+export type YupifySchema<
   BodySchema extends yup.Schema,
   QuerySchema extends yup.Schema,
   ParamsSchema extends yup.Schema,
@@ -60,7 +60,7 @@ type YupifySchema<
   [Yupify.Response]: ResponseSchema;
 }>;
 
-type YupifyShape<
+export type YupifyShape<
   BodySchema extends yup.Schema,
   QuerySchema extends yup.Schema,
   ParamsSchema extends yup.Schema,
@@ -74,7 +74,7 @@ type YupifyShape<
   Response: yup.InferType<ResponseSchema>;
 };
 
-type YupifyCallback<
+export type YupifyCallback<
   BodySchema extends yup.Schema,
   QuerySchema extends yup.Schema,
   ParamsSchema extends yup.Schema,
