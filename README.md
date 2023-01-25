@@ -22,7 +22,7 @@ fastify.post<{ Querystring: { hello: string } }>(
 yupify.post(
   "/",
   { [Yupify.Query]: yup.object({ hello: yup.string() }) },
-  ({ query: { hello } }) => {
+  ({ [Yupify.Query]: { hello } }) => {
     return hello;
   }
 );
@@ -67,6 +67,8 @@ yupify.get(
   ({ query: { echo } }) => echo
 );
 ```
+
+> You will need to install yup. Make sure it is version 1.0.0-beta.7 and above
 
 ### Available "chunks"
 
