@@ -40,7 +40,7 @@ const HTTP_METHODS: Array<HTTPMethod> = [
 
 export enum Yupify {
   Body = "body",
-  Query = "querystring",
+  Query = "query",
   Params = "params",
   Headers = "headers",
   Response = "response",
@@ -68,7 +68,7 @@ export type YupifyShape<
   ResponseSchema extends yup.Schema
 > = {
   Body: yup.InferType<BodySchema>;
-  Query: yup.InferType<QuerySchema>;
+  Querystring: yup.InferType<QuerySchema>;
   Params: yup.InferType<ParamsSchema>;
   Headers: yup.InferType<HeadersSchema>;
   Response: yup.InferType<ResponseSchema>;
@@ -126,7 +126,19 @@ const createX = <
       HeadersSchema,
       ResponseSchema
     >
-  >(path, { schema }, cb);
+  >(
+    path,
+    {
+      schema: {
+        [Yupify.Body]: schema.body,
+        querystring: schema.query,
+        [Yupify.Params]: schema.params,
+        [Yupify.Headers]: schema.headers,
+        [Yupify.Response]: schema.response,
+      },
+    },
+    cb
+  );
 };
 
 export const createYupify = (fastify: FastifyInstance) => {
