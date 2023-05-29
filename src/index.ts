@@ -201,3 +201,43 @@ const plugin: FastifyPluginCallback<typeof yupDefaultOptions> = (
   done();
 };
 export const yupifyPlugin = fp(plugin);
+
+export type HookConstructor<
+  A extends Array<any> = [undefined],
+  D extends {} = {}
+> = <
+  BodySchema extends yup.Schema,
+  QuerySchema extends yup.Schema,
+  ParamsSchema extends yup.Schema,
+  HeadersSchema extends yup.Schema,
+  ResponseSchema extends yup.Schema
+>(
+  cb: (
+    req: FastifyRequest<
+      YupifyShape<
+        BodySchema,
+        QuerySchema,
+        ParamsSchema,
+        HeadersSchema,
+        ResponseSchema
+      >
+    > &
+      D,
+    res: FastifyReply
+  ) => unknown,
+  args?: A
+) => (
+  req: FastifyRequest<
+    YupifyShape<
+      BodySchema,
+      QuerySchema,
+      ParamsSchema,
+      HeadersSchema,
+      ResponseSchema
+    >
+  > &
+    D,
+  res: FastifyReply
+) => unknown;
+
+export type YupifyInstance = ReturnType<typeof createYupify>;

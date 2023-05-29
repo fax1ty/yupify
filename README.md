@@ -64,7 +64,7 @@ yupify.get(
       echo: yup.string(),
     }),
   },
-  ({ query: { echo } }) => echo
+  ({ [Yupify.Query]: { echo } }) => echo
 );
 ```
 
@@ -77,3 +77,42 @@ yupify.get(
 ### Available methods
 
 `yupify.get`, `yupify.head`, `yupify.post`, `yupify.put`, `yupify.delete`, `yupify.options`, `yupify.patch`
+
+### How to create a hook
+
+#### Simple example
+
+```ts
+import { HookConstructor } from "yupify";
+
+// Everything will be type-safe, relax
+export const withSecret: HookConstructor = (cb) => {
+  return (req, res) => {
+    const token = req.headers.authorization;
+    if (!token) return res.code(401).send();
+    if (token !== process.env.SECRET) return res.code(401).send();
+    return await cb(req, res);
+  };
+};
+```
+
+#### Advanced example
+
+```ts
+import { HookConstructor } from "yupify";
+
+export const withAuth: HookConstructor<
+  // Args tuple
+  [JWTVerifyGetKey],
+  // Object that you can attach to .req
+  { user: UserData }
+> = (cb, [jwks]) => {
+  return async (req, res) => {
+    const token = req.headers.authorization;
+    if (!token) return res.code(401).send();
+    const user = await getUserDataFromToken(token, jwks);
+    if (!user) return res.code(401).send();
+    return await cb({ ...req, user }, res);
+  };
+};
+```
